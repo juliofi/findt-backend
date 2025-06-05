@@ -6,6 +6,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Pessoa {
     @Id

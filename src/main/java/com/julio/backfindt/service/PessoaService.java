@@ -30,6 +30,8 @@ public class PessoaService {
     }
 
     public void deletar(Long id){
-        repository.deleteById(id);
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+        }
     }
 }

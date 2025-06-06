@@ -2,9 +2,12 @@ package com.julio.backfindt.controller;
 
 import com.julio.backfindt.model.Pessoa;
 import com.julio.backfindt.service.PessoaService;
+import com.julio.backfindt.dto.PessoaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -36,12 +39,19 @@ public class PessoaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pessoa> salvar(@RequestBody Pessoa pessoa){
-        System.out.println("Recebido: " + pessoa);
-        return ResponseEntity.ok(service.salvar(pessoa));
+    public ResponseEntity<Pessoa> salvar(@RequestBody PessoaDTO pessoaDTO){
+        Pessoa pessoa = new Pessoa(
+                pessoaDTO.getNomeCompleto(),
+                pessoaDTO.getCpf(),
+                pessoaDTO.getGenero(),
+                pessoaDTO.getDataNascimento()
+        );
+
+        Pessoa pessoaSalva = service.salvar(pessoa);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
     }
 
-    @PostMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Pessoa> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();

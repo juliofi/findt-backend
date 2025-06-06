@@ -1,5 +1,6 @@
 package com.julio.backfindt.controller;
 
+import com.julio.backfindt.dto.BuscaCpfDTO;
 import com.julio.backfindt.model.Pessoa;
 import com.julio.backfindt.service.PessoaService;
 import com.julio.backfindt.dto.PessoaDTO;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pessoas")
@@ -55,5 +57,18 @@ public class PessoaController {
     public ResponseEntity<Pessoa> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/buscar/cpf")
+    public ResponseEntity<Pessoa> buscarPorCpf(@RequestBody BuscaCpfDTO buscaCpfDTO){
+        return service.buscarPorCpf(buscaCpfDTO.getCpf())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/buscar/nome")
+    public ResponseEntity<List<Pessoa>> buscarPorNome(@RequestBody Map<String, String> request){
+        String nomeCompleto = request.get("nomeCompleto");
+        List<Pessoa> resultados = service.buscarPorNomeCompleto(nomeCompleto);
+        return ResponseEntity.ok(resultados);
     }
 }

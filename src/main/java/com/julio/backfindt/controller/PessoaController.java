@@ -1,0 +1,49 @@
+package com.julio.backfindt.controller;
+
+import com.julio.backfindt.model.Pessoa;
+import com.julio.backfindt.service.PessoaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/pessoas")
+@CrossOrigin(origins = "*")
+public class PessoaController {
+
+    @Autowired
+    private PessoaService service;
+
+    @GetMapping
+    public List<Pessoa> listarTodos() {
+        return service.listarTodos();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Pessoa> buscarPorId(@PathVariable Long id) {
+        return service.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<Pessoa> buscarPorCpf(@PathVariable String cpf) {
+        return service.buscarPorCpf(cpf)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<Pessoa> salvar(@RequestBody Pessoa pessoa){
+        System.out.println("Recebido: " + pessoa);
+        return ResponseEntity.ok(service.salvar(pessoa));
+    }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<Pessoa> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+}

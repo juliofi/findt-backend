@@ -24,6 +24,7 @@ public class PessoaService {
     public Optional<Pessoa> buscarPorCpf(String cpf){
         return repository.findByCpf(cpf);
     }
+    public List<Pessoa> buscarPorNomeCompleto(String nomeCompleto) { return repository.findTop20ByNomeCompletoContainingIgnoreCase(nomeCompleto); }
 
     public Pessoa salvar(Pessoa pessoa){
         return repository.save(pessoa);

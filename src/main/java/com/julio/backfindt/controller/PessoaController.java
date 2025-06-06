@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pessoas")
@@ -62,5 +63,12 @@ public class PessoaController {
         return service.buscarPorCpf(buscaCpfDTO.getCpf())
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/buscar/nome")
+    public ResponseEntity<List<Pessoa>> buscarPorNome(@RequestBody Map<String, String> request){
+        String nomeCompleto = request.get("nomeCompleto");
+        List<Pessoa> resultados = service.buscarPorNomeCompleto(nomeCompleto);
+        return ResponseEntity.ok(resultados);
     }
 }

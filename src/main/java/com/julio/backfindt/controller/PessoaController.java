@@ -1,5 +1,6 @@
 package com.julio.backfindt.controller;
 
+import com.julio.backfindt.dto.BuscaCpfDTO;
 import com.julio.backfindt.model.Pessoa;
 import com.julio.backfindt.service.PessoaService;
 import com.julio.backfindt.dto.PessoaDTO;
@@ -55,5 +56,11 @@ public class PessoaController {
     public ResponseEntity<Pessoa> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+    @PostMapping("/buscar/cpf")
+    public ResponseEntity<Pessoa> buscarPorCpf(@RequestBody BuscaCpfDTO buscaCpfDTO){
+        return service.buscarPorCpf(buscaCpfDTO.getCpf())
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

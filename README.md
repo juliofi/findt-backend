@@ -4,7 +4,7 @@
 
 #### Retorna uma pessoa pelo cpf
 
-```http
+```
   POST https://findt-backend.onrender.com/pessoas/buscar/cpf
 ```
 
@@ -22,7 +22,7 @@
 
 #### Retorna uma pessoa pelo nome
 
-```http
+```
   POST https://findt-backend.onrender.com/pessoas/buscar/nome
 ```
 
